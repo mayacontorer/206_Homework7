@@ -1,8 +1,8 @@
 
-# Your name:
-# Your student id:
-# Your email:
-# List who you have worked with on this project:
+# Your name: Maya Contorer
+# Your student id: 62483367
+# Your email: contorer@umich.edu
+# List who you have worked with on this project: n/a
 
 import unittest
 import sqlite3
@@ -53,7 +53,11 @@ def make_positions_table(data, cur, conn):
 #     created for you -- see make_positions_table above for details.
 
 def make_players_table(data, cur, conn):
-    pass
+    print('data: ', data)
+    conn = sqlite3.connect('Football.db')
+    print('conn: ', conn)
+    cur = conn.cursor()
+    print('cur: ', cur)
 
 ## [TASK 2]: 10 points
 # Finish the function nationality_search
