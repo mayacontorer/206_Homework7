@@ -53,11 +53,21 @@ def make_positions_table(data, cur, conn):
 #     created for you -- see make_positions_table above for details.
 
 def make_players_table(data, cur, conn):
-    print('data: ', data)
-    conn = sqlite3.connect('Football.db')
-    print('conn: ', conn)
-    cur = conn.cursor()
-    print('cur: ', cur)
+    player_info = data['squad']
+    #print(player_info)
+    cur.execute('DROP TABLE IF EXISTS Players')
+    cur.execute('CREATE TABLE Players (id INTEGER, name TEXT, position_id INTEGER, birthyear INTEGER, nationality TEXT)')
+
+    for player in player_info:
+        id = int(player['id'])
+        name = player['name']
+        position = cur.execute('SELECT')
+        birthday = int(player['dateOfBirth'].split('-')[0])
+        nationality = player['nationality']
+        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position, birthday, nationality))
+    conn.commit()
+    conn.close()
+        
 
 ## [TASK 2]: 10 points
 # Finish the function nationality_search
@@ -168,7 +178,7 @@ class TestAllMethods(unittest.TestCase):
     def test_players_table(self):
         self.cur.execute('SELECT * from Players')
         players_list = self.cur.fetchall()
-
+        print(players_list)
         self.assertEqual(len(players_list), 30)
         self.assertEqual(len(players_list[0]),5)
         self.assertIs(type(players_list[0][0]), int)
