@@ -90,7 +90,6 @@ def nationality_search(countries, cur, conn):
     for country in countries:
         cur.execute('SELECT name, position_id, nationality FROM Players WHERE nationality = ?', (country,))
         result = cur.fetchall()
-    print(result)
     return result
 
 ## [TASK 3]: 10 points
@@ -110,7 +109,9 @@ def nationality_search(countries, cur, conn):
 
 
 def birthyear_nationality_search(age, country, cur, conn):
-    cur.execute('SELECT name, nationality, birthyear FROM Players WHERE nationality =?', (country,))
+    cur.execute('SELECT name, nationality, birthyear FROM Players WHERE nationality =? AND birthyear <?', (country, 2023 - age))
+    result = cur.fetchall()
+    return result
 
 ## [TASK 4]: 15 points
 # finish the function position_birth_search
@@ -130,7 +131,9 @@ def birthyear_nationality_search(age, country, cur, conn):
     # HINT: You'll have to use JOIN for this task.
 
 def position_birth_search(position, age, cur, conn):
-       pass
+       cur.execute('SELECT Players.name, Players.position, Players.birthyear FROM Players JOIN Positions WHERE Positions.position =? AND Players.birthyear <?', (position, age))
+       result = cur.fetchall()
+       return result
 
 
 # [EXTRA CREDIT]
