@@ -61,10 +61,16 @@ def make_players_table(data, cur, conn):
     for player in player_info:
         id = int(player['id'])
         name = player['name']
-        position = cur.execute('SELECT')
+        position = player['position']
+        cur.execute('SELECT id FROM Positions WHERE position = ?', (position,))
+        result = cur.fetchone()
+        if result:
+            position_id = result[0]
+        else:
+            position_id = None
         birthday = int(player['dateOfBirth'].split('-')[0])
         nationality = player['nationality']
-        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position, birthday, nationality))
+        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position_id, birthday, nationality))
     conn.commit()
     conn.close()
         
@@ -80,7 +86,7 @@ def make_players_table(data, cur, conn):
         # the player's name, their position_id, and their nationality.
 
 def nationality_search(countries, cur, conn):
-    pass
+    ('SELECT * ')
 
 ## [TASK 3]: 10 points
 # finish the function birthyear_nationality_search
