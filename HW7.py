@@ -2,7 +2,7 @@
 # Your name: Maya Contorer
 # Your student id: 62483367
 # Your email: contorer@umich.edu
-# List who you have worked with on this project: n/a
+# List who you have worked with on this project: Joe Novak
 
 import unittest
 import sqlite3
@@ -86,7 +86,12 @@ def make_players_table(data, cur, conn):
         # the player's name, their position_id, and their nationality.
 
 def nationality_search(countries, cur, conn):
-    ('SELECT * ')
+    #tup_list = []
+    for country in countries:
+        cur.execute('SELECT name, position_id, nationality FROM Players WHERE nationality = ?', (country,))
+        result = cur.fetchall()
+    print(result)
+    return result
 
 ## [TASK 3]: 10 points
 # finish the function birthyear_nationality_search
@@ -105,7 +110,7 @@ def nationality_search(countries, cur, conn):
 
 
 def birthyear_nationality_search(age, country, cur, conn):
-    pass
+    cur.execute('SELECT name, nationality, birthyear FROM Players WHERE nationality =?', (country,))
 
 ## [TASK 4]: 15 points
 # finish the function position_birth_search
