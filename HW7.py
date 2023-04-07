@@ -70,7 +70,7 @@ def make_players_table(data, cur, conn):
             position_id = None
         birthday = int(player['dateOfBirth'].split('-')[0])
         nationality = player['nationality']
-        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position_id, birthday, nationality))
+        cur.execute("INSERT INTO Players (id, lsname, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position_id, birthday, nationality))
     conn.commit()
     conn.close()
         
@@ -131,7 +131,7 @@ def birthyear_nationality_search(age, country, cur, conn):
     # HINT: You'll have to use JOIN for this task.
 
 def position_birth_search(position, age, cur, conn):
-       cur.execute('SELECT Players.name, Positions.position, Players.birthyear FROM Players JOIN Positions WHERE Positions.position =? AND Players.birthyear <?', (position, 2023 - age))
+       cur.execute('SELECT Players.name, Positions.position, Players.birthyear FROM Players JOIN Positions WHERE Players.position_id = Positions.id AND Positions.position =? AND Players.birthyear >?', (position, 2023 - age))
        result = cur.fetchall()
        print("position_birth_search: ", result)
        return result
