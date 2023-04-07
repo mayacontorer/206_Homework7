@@ -70,7 +70,7 @@ def make_players_table(data, cur, conn):
             position_id = None
         birthday = int(player['dateOfBirth'].split('-')[0])
         nationality = player['nationality']
-        cur.execute("INSERT INTO Players (id, lsname, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position_id, birthday, nationality))
+        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", (id, name, position_id, birthday, nationality))
     conn.commit()
     conn.close()
         
@@ -173,7 +173,30 @@ def position_birth_search(position, age, cur, conn):
 #     the passed year. 
 
 def make_winners_table(data, cur, conn):
-    pass
+    winners = []
+    i = 0
+    #nested_data = data['seasons'] #this is a list of dictionaries
+    for player in data['seasons']:
+        i +=1
+        for item in player[i]['winner']:
+            winner_id = item['id']
+            winner_name = item['name']
+    cur.execute('DROP TABLE IF EXISTS Winners')
+    cur.execute('CREATE TABLE Winners (id INTEGER PRIMARY KEY, name TEXT UNIQUE)')
+    for i in range(len(winners)):
+        cur.execute("INSERT OR IGNORE INTO WINNERS (id, name) VALUES (?, ?)", (winner_id, winner_name))
+    conn.commit()
+
+
+# positions = []
+#     for player in data['squad']:
+#         position = player['position']
+#         if position not in positions:
+#             positions.append(position)
+#     cur.execute("CREATE TABLE IF NOT EXISTS Positions (id INTEGER PRIMARY KEY, position TEXT UNIQUE)")
+#     for i in range(len(positions)):
+#         cur.execute("INSERT OR IGNORE INTO Positions (id, position) VALUES (?,?)",(i, positions[i]))
+#     conn.commit()
 
 def make_seasons_table(data, cur, conn):
     pass
